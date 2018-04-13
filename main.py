@@ -4,7 +4,7 @@ from gi.repository import Gtk
 #import os
 import subprocess
 
-VERSION = "0.1"
+VERSION = "0.2"
 
 
 
@@ -119,6 +119,14 @@ gtk_info_flatpak_installed_apps_count.set_text(str(len(flatpak_list_apps)))
 gtk_info_flatpak_installed_runtimes_count.set_text(str(len(flatpak_list_runtimes)))
 
 
+# about
+
+gtk_about_window.set_version(VERSION)
+
+
+
+
+# ----- whatever -----
 
 Gtk.main()
 exit()
