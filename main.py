@@ -21,11 +21,13 @@ def flatpak_list_run(command):
 class Handler:
 	def on_destroy(self, *args):
 		Gtk.main_quit()
-		#exit()
+		print("Handler: on_destroy")
+		exit()
 
 	def on_key_pressed(self, widget, event):
 		pass
 		# str+f
+		print("Handler: on_key_pressed")
 
 	def on_search_requested(self, *args):
 		gtk_stack.set_visible_child(gtk_search)
@@ -34,6 +36,15 @@ class Handler:
 	def search_input_focus():
 		gtk_search_input.grab_focus()
 		# TODO select all
+
+	def show_about_window(self, *args):
+		gtk_about_window.show_all()
+		gtk_popover1.hide()
+		return True
+
+	def hide_about_window(self, *args):
+		gtk_about_window.hide()
+		return True
 
 
 # ----- bla bla bla -----
@@ -72,6 +83,8 @@ gtk_info_flatpak_default_arch = builder.get_object("info_flatpak_default_arch")
 gtk_info_flatpak_installed_apps_count = builder.get_object("info_flatpak_installed_apps_count")
 gtk_info_flatpak_installed_runtimes_count = builder.get_object("info_flatpak_installed_runtimes_count")
 
+gtk_popover1 = builder.get_object("popover1")
+gtk_about_window = builder.get_object("about_window")
 
 # ----- init -----
 
@@ -108,3 +121,4 @@ gtk_info_flatpak_installed_runtimes_count.set_text(str(len(flatpak_list_runtimes
 
 
 Gtk.main()
+exit()
