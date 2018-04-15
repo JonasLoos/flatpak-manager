@@ -63,12 +63,12 @@ class Handler:
 
 	def show_installed_info_app(self, *args):
 		index = args[1].get_index()
-		print("show app info: " + str(index) + " - " + flatpak_list_apps[index].split(" ")[0])
-		show_installed_info(flatpak_list_apps[index].split(" ")[0])
+		print("show app info: " + str(index) + " - " + flatpak_list_apps[index].split()[0])
+		show_installed_info(flatpak_list_apps[index].split()[0])
 	def show_installed_info_runtime(self, *args):
 		index = args[1].get_index()
-		print("show runtime info: " + str(index) + " - " + flatpak_list_runtimes[index].split(" ")[0])
-		show_installed_info(flatpak_list_runtimes[index].split(" ")[0])
+		print("show runtime info: " + str(index) + " - " + flatpak_list_runtimes[index].split()[0])
+		show_installed_info(flatpak_list_runtimes[index].split()[0])
 
 	def on_go_back_btn_clicked(self, *args):
 		print("go back clicked")
@@ -111,7 +111,8 @@ gtk_installed_info_size = builder.get_object("installed_info_size")
 gtk_search = builder.get_object("search")
 gtk_search_input = builder.get_object("search_input")
 
-gtk_settings = builder.get_object("settings")
+gtk_remotes = builder.get_object("remotes")
+gtk_remotes_list = builder.get_object("remotes_list")
 
 gtk_info = builder.get_object("info")
 gtk_info_version = builder.get_object("info_version")
@@ -137,13 +138,10 @@ go_back_btn_current_handler = -1
 
 def init_installed_list(selected_list, items):
 	for x in items:
-		app_name = x.split(" ")[0]
+		app_name = x.split()[0]
 		item = Gtk.Label()
 		item.set_text(app_name)
 		item.set_xalign(0)
-		#row = Gtk.ListBoxRow()
-		#row.add(item)
-		#row.connect("activate", lambda : show_installed_info(app_name))
 		selected_list.add(item)
 	selected_list.show_all()
 
@@ -152,6 +150,17 @@ init_installed_list(gtk_installed_list_apps, flatpak_list_apps)
 
 flatpak_list_runtimes = flatpak_run("list --runtime").split("\n")
 init_installed_list(gtk_installed_list_runtimes, flatpak_list_runtimes)
+
+
+# remotes
+
+flatpak_list_remotes = flatpak_run("remotes").split("\n")
+for x in flatpak_list_remotes:
+	item = Gtk.Label()
+	item.set_text(x.split()[0])
+	item.set_xalign(0)
+	gtk_remotes_list.add(item)
+gtk_remotes_list.show_all()
 
 
 # info
@@ -176,3 +185,14 @@ gtk_about_window.set_version(VERSION)
 
 Gtk.main()
 exit()
+
+
+
+# TODO
+# 
+# * back button light when available
+# * install
+# * remove
+# * add remote
+# * remove remote
+# ...
