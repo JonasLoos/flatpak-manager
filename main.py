@@ -1,7 +1,6 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-#import os
 import subprocess
 
 VERSION = "0.2"
@@ -15,6 +14,19 @@ def flatpak_run(command):
 
 def flatpak_list_run(command):
 	return subprocess.run(['flatpak', "list"], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+
+def show_installed_info(app_name):
+	print("show " + app_name)
+	gtk_installed_stack_main.set_visible_child(gtk_installed_info)
+	gtk_installed_info_run_btn.connect("clicked", lambda x: run_app(app_name))
+	go_back_btn_current_handler = gtk_go_back_btn.connect("clicked", lambda x: gtk_installed_stack_main.set_visible_child(gtk_installed_list))
+	gtk_installed_info_name.set_text(app_name)
+
+
+def run_app(app_name):
+	print("run " + app_name)
+	subprocess.Popen(["flatpak", "run", app_name], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 
 # ----- gtk handler -----
 
@@ -46,6 +58,20 @@ class Handler:
 		gtk_about_window.hide()
 		return True
 
+	def show_installed_info_app(self, *args):
+		index = args[1].get_index()
+		print("show app info: " + str(index) + " - " + flatpak_list_apps[index].split(" ")[0])
+		show_installed_info(flatpak_list_apps[index].split(" ")[0])
+	def show_installed_info_runtime(self, *args):
+		index = args[1].get_index()
+		print("show runtime info: " + str(index) + " - " + flatpak_list_runtimes[index].split(" ")[0])
+		show_installed_info(flatpak_list_runtimes[index].split(" ")[0])
+
+	def on_go_back_btn_clicked(self, *args):
+		print("go back clicked")
+		gtk_go_back_btn.disconnect(go_back_btn_current_handler)
+
+
 
 # ----- bla bla bla -----
 
@@ -59,6 +85,8 @@ builder.connect_signals(Handler())
 gtk_window = builder.get_object("window1")
 gtk_window.show_all()
 
+gtk_go_back_btn = builder.get_object("go_back_btn")
+
 gtk_stack = builder.get_object("stack1")
 
 gtk_home = builder.get_object("home")
@@ -66,9 +94,14 @@ gtk_home = builder.get_object("home")
 gtk_updates = builder.get_object("updates")
 
 gtk_installed = builder.get_object("installed")
-gtk_installed_stack = builder.get_object("installed_stack")
+gtk_installed_stack_main = builder.get_object("installed_stack_main")
+gtk_installed_stack_list = builder.get_object("installed_stack_list")
+gtk_installed_list = builder.get_object("installed_list")
 gtk_installed_list_apps = builder.get_object("installed_list_apps")
 gtk_installed_list_runtimes = builder.get_object("installed_list_runtimes")
+gtk_installed_info = builder.get_object("installed_info")
+gtk_installed_info_name = builder.get_object("installed_info_name")
+gtk_installed_info_run_btn = builder.get_object("installed_info_run_btn")
 
 gtk_search = builder.get_object("search")
 gtk_search_input = builder.get_object("search_input")
@@ -90,14 +123,22 @@ gtk_about_window = builder.get_object("about_window")
 
 gtk_window.show_all()
 
+# go back btn
+
+go_back_btn_current_handler = -1
+
 
 # installed
 
 def init_installed_list(selected_list, items):
 	for x in items:
+		app_name = x.split(" ")[0]
 		item = Gtk.Label()
-		item.set_text(x.split(" ")[0])
+		item.set_text(app_name)
 		item.set_xalign(0)
+		#row = Gtk.ListBoxRow()
+		#row.add(item)
+		#row.connect("activate", lambda : show_installed_info(app_name))
 		selected_list.add(item)
 	selected_list.show_all()
 
