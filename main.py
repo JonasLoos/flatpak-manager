@@ -1,7 +1,9 @@
+#!/usr/bin/env python3
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 import subprocess
+import sys
 
 VERSION = "0.2"
 
@@ -73,6 +75,10 @@ class Handler:
 	def on_go_back_btn_clicked(self, *args):
 		print("go back clicked")
 		gtk_go_back_btn.disconnect(go_back_btn_current_handler)
+
+
+	def install_from_file(self, *args):
+		print("install from file called")
 
 
 
@@ -179,6 +185,14 @@ gtk_info_flatpak_installed_runtimes_count.set_text(str(len(flatpak_list_runtimes
 gtk_about_window.set_version(VERSION)
 
 
+
+
+# command line args / file given
+if(len(sys.argv) > 1):
+	print(str(len(sys.argv)) + " args given")
+
+	if(sys.argv[1].split(".")[-1] == "flatpakref"):
+		print("flatpakref given")
 
 
 # ----- whatever -----
