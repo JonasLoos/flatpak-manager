@@ -485,7 +485,7 @@
                               <object class="GtkLabel">
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
-                                <property name="label" translatable="yes">Insalled Runtimes: </property>
+                                <property name="label" translatable="yes">Installed Runtimes: </property>
                                 <attributes>
                                   <attribute name="foreground" value="#bababdbdb6b6"/>
                                 </attributes>
