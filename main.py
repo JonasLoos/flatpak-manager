@@ -20,7 +20,10 @@ def show_installed_info(app_name):
 	gtk_installed_stack_main.set_visible_child(gtk_installed_info)
 	gtk_installed_info_run_btn.connect("clicked", lambda x: run_app(app_name))
 	go_back_btn_current_handler = gtk_go_back_btn.connect("clicked", lambda x: gtk_installed_stack_main.set_visible_child(gtk_installed_list))
+	# set details
 	gtk_installed_info_name.set_text(app_name)
+	gtk_installed_info_origin.set_text(flatpak_run("info -o " + app_name))
+	gtk_installed_info_size.set_text(flatpak_run("info -s " + app_name))
 
 
 def run_app(app_name):
@@ -93,7 +96,7 @@ gtk_home = builder.get_object("home")
 
 gtk_updates = builder.get_object("updates")
 
-gtk_installed = builder.get_object("installed")
+gtk_installed = builder.get_object("insgtk_installed_info_origintalled")
 gtk_installed_stack_main = builder.get_object("installed_stack_main")
 gtk_installed_stack_list = builder.get_object("installed_stack_list")
 gtk_installed_list = builder.get_object("installed_list")
@@ -102,6 +105,8 @@ gtk_installed_list_runtimes = builder.get_object("installed_list_runtimes")
 gtk_installed_info = builder.get_object("installed_info")
 gtk_installed_info_name = builder.get_object("installed_info_name")
 gtk_installed_info_run_btn = builder.get_object("installed_info_run_btn")
+gtk_installed_info_origin = builder.get_object("installed_info_origin")
+gtk_installed_info_size = builder.get_object("installed_info_size")
 
 gtk_search = builder.get_object("search")
 gtk_search_input = builder.get_object("search_input")
