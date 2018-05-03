@@ -111,8 +111,9 @@ def init():
 		print(str(len(sys.argv)) + " args given")
 
 		if(sys.argv[1].split(".")[-1] == "flatpakref"):
-			print("flatpakref given")
-			install_app_from_file(sys.argv[1])
+			print("flatpakref as arg given")
+			gtk_home_install_file_chooser.set_filename(sys.argv[1])
+			Handler.install_from_file_selected(None)
 
 
 
