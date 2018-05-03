@@ -163,7 +163,7 @@ init_installed_list(gtk_installed_list_runtimes, flatpak_list_runtimes)
 flatpak_list_remotes = flatpak_run("remotes").split("\n")
 for x in flatpak_list_remotes:
 	item = Gtk.Label()
-	item.set_text(x.split()[0])
+	item.set_text(x.split()[0] + " ("+x.split()[1]+")")
 	item.set_xalign(0)
 	gtk_remotes_list.add(item)
 gtk_remotes_list.show_all()
