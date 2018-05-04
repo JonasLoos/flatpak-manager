@@ -122,7 +122,6 @@ def init():
 class Handler:
 	def on_destroy(self, *args):
 		Gtk.main_quit()
-		print("Handler: on_destroy")
 		exit()
 
 	def on_key_pressed(self, widget, event):
