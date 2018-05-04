@@ -2,7 +2,7 @@
 
 this is a simple python gtk app with the goal to provide a graphical user interface for the terminal flatpak commands.
 
-Working:  
+### Working:  
 * list installed apps
 * list installed runtimes
 * list remotes
@@ -12,7 +12,7 @@ Working:
 * take .flatpakref file as command line argument
 * show info about the flatpak installation
 
-TODO:  
+### TODO:  
 * browse remotes & install remote apps
 * updates
 * search for local & remote apps
