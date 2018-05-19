@@ -7,7 +7,6 @@ import sys
 
 # global vars
 VERSION = "0.3"
-go_back_btn_current_handler = 0
 run_app_btn_current_handler = 0
 flatpak_list_apps = []
 flatpak_list_runtimes = []
@@ -23,17 +22,15 @@ def flatpak_list_run(command):
 	return subprocess.run(['flatpak', "list"], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
 
 def show_installed_info(app_name):
-	global go_back_btn_current_handler
 	global run_app_btn_current_handler
 	print("show " + app_name)
 	gtk_installed_stack_main.set_visible_child(gtk_installed_info)
-	gtk_installed_info_run_btn.disconnect(run_app_btn_current_handler)
+	if run_app_btn_current_handler > 0:
+		gtk_installed_info_run_btn.disconnect(run_app_btn_current_handler)
 	run_app_btn_current_handler = gtk_installed_info_run_btn.connect("clicked", lambda x: run_app(app_name))
-	go_back_btn_current_handler = gtk_go_back_btn.connect("clicked", lambda x: gtk_installed_stack_main.set_visible_child(gtk_installed_list))
 	# set details
 	gtk_installed_info_name.set_text(app_name)
-	gtk_installed_info_origin.set_text(flatpak_run("info -o " + app_name))
-	gtk_installed_info_size.set_text(flatpak_run("info -s " + app_name))
+	gtk_installed_info_text.set_text(flatpak_run("info " + app_name))
 
 
 def run_app(app_name):
@@ -48,6 +45,12 @@ def install_app_from_file(filename):
 		return
 	print("installing " + filename)
 	subprocess.Popen(["x-terminal-emulator", "-e", "bash -c 'flatpak install "+filename+"; read -n 1 -s -p \"done, press any key to exit\"'"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+def go_back():
+	site = gtk_stack.get_visible_child_name()
+	print("go back: " + site)
+	if site == "Installed":
+		gtk_installed_stack_main.set_visible_child(gtk_installed_list)
 
 def init_installed_list(selected_list, items):
 	for line in selected_list.get_children():
@@ -125,9 +128,12 @@ class Handler:
 		exit()
 
 	def on_key_pressed(self, widget, event):
-		pass
-		# str+f
 		print("Handler: on_key_pressed: " + str(event.keyval))
+		# str+f
+
+		# back
+		if event.keyval == 65288:
+			go_back()
 
 	def on_search_requested(self, *args):
 		gtk_stack.set_visible_child(gtk_search)
@@ -156,8 +162,7 @@ class Handler:
 		show_installed_info(flatpak_list_runtimes[index].split()[0])
 
 	def on_go_back_btn_clicked(self, *args):
-		print("go back clicked")
-		gtk_go_back_btn.disconnect(go_back_btn_current_handler)
+		go_back()
 
 
 	def on_reload_pressed(self, *args):
@@ -218,8 +223,7 @@ gtk_installed_list_runtimes = builder.get_object("installed_list_runtimes")
 gtk_installed_info = builder.get_object("installed_info")
 gtk_installed_info_name = builder.get_object("installed_info_name")
 gtk_installed_info_run_btn = builder.get_object("installed_info_run_btn")
-gtk_installed_info_origin = builder.get_object("installed_info_origin")
-gtk_installed_info_size = builder.get_object("installed_info_size")
+gtk_installed_info_text = builder.get_object("installed_info_text")
 
 gtk_search = builder.get_object("search")
 gtk_search_input = builder.get_object("search_input")
