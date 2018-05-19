@@ -16,3 +16,4 @@ this is a simple python gtk app with the goal to provide a graphical user interf
 * browse remotes & install remote apps
 * updates
 * search for local & remote apps
+* add/remove remotes
