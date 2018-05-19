@@ -214,7 +214,6 @@ gtk_home_install_file_button = builder.get_object("install_file_button")
 
 gtk_updates = builder.get_object("updates")
 
-gtk_installed = builder.get_object("insgtk_installed_info_origintalled")
 gtk_installed_stack_main = builder.get_object("installed_stack_main")
 gtk_installed_stack_list = builder.get_object("installed_stack_list")
 gtk_installed_list = builder.get_object("installed_list")
@@ -243,7 +242,6 @@ gtk_popover1 = builder.get_object("popover1")
 gtk_about_window = builder.get_object("about_window")
 
 # ----- init -----
-# load flatpak stuff here, cuz else it doesn't work (other thread?)
 init()
 gtk_window.show_all()
 
