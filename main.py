@@ -251,14 +251,3 @@ gtk_window.show_all()
 
 Gtk.main()
 exit()
-
-
-
-# TODO
-# 
-# * back button light when available
-# * install
-# * remove
-# * add remote
-# * remove remote
-# ...
