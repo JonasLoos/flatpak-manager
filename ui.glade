@@ -412,10 +412,44 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkStackSwitcher">
+                  <object class="GtkBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="stack">search_stack</property>
+                    <property name="homogeneous">True</property>
+                    <child>
+                      <object class="GtkComboBox">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="active">1</property>
+                        <property name="has_entry">True</property>
+                        <property name="id_column">1</property>
+                        <child internal-child="entry">
+                          <object class="GtkEntry">
+                            <property name="can_focus">False</property>
+                            <property name="text" translatable="yes">all / local / remote</property>
+                          </object>
+                        </child>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">0</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkCheckButton">
+                        <property name="label" translatable="yes">display runtimes</property>
+                        <property name="visible">True</property>
+                        <property name="can_focus">True</property>
+                        <property name="receives_default">False</property>
+                        <property name="draw_indicator">True</property>
+                      </object>
+                      <packing>
+                        <property name="expand">False</property>
+                        <property name="fill">True</property>
+                        <property name="position">1</property>
+                      </packing>
+                    </child>
                   </object>
                   <packing>
                     <property name="expand">False</property>
@@ -424,62 +458,23 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkStack" id="search_stack">
+                  <object class="GtkListBox">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="transition_type">slide-left-right</property>
                     <child>
-                      <object class="GtkListBox">
+                      <object class="GtkListBoxRow">
+                        <property name="width_request">100</property>
+                        <property name="height_request">80</property>
                         <property name="visible">True</property>
-                        <property name="can_focus">False</property>
+                        <property name="can_focus">True</property>
                         <child>
-                          <object class="GtkListBoxRow">
-                            <property name="width_request">100</property>
-                            <property name="height_request">80</property>
+                          <object class="GtkLabel">
                             <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="selectable">False</property>
-                            <child>
-                              <object class="GtkSpinner">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="active">True</property>
-                              </object>
-                            </child>
+                            <property name="can_focus">False</property>
+                            <property name="label" translatable="yes">nothing</property>
                           </object>
                         </child>
                       </object>
-                      <packing>
-                        <property name="name">Apps</property>
-                        <property name="title" translatable="yes">Apps</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkListBox">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkListBoxRow">
-                            <property name="width_request">100</property>
-                            <property name="height_request">80</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="selectable">False</property>
-                            <child>
-                              <object class="GtkSpinner">
-                                <property name="visible">True</property>
-                                <property name="can_focus">False</property>
-                                <property name="active">True</property>
-                              </object>
-                            </child>
-                          </object>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="name">Runtimes</property>
-                        <property name="title" translatable="yes">Runtimes</property>
-                        <property name="position">1</property>
-                      </packing>
                     </child>
                   </object>
                   <packing>
@@ -537,6 +532,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
                             <property name="label" translatable="yes">Version: </property>
                             <property name="xalign">0</property>
                             <attributes>
@@ -565,6 +561,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
                             <property name="label" translatable="yes">Flatpak Version: </property>
                             <property name="xalign">0</property>
                             <attributes>
@@ -593,6 +590,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
                             <property name="label" translatable="yes">Supported Arches: </property>
                             <property name="xalign">0</property>
                             <attributes>
@@ -621,6 +619,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
                             <property name="label" translatable="yes">Default Arch: </property>
                             <property name="xalign">0</property>
                             <attributes>
@@ -649,6 +648,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
                             <property name="label" translatable="yes">Installed Apps: </property>
                             <property name="xalign">0</property>
                             <attributes>
@@ -677,6 +677,7 @@
                           <object class="GtkLabel">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
+                            <property name="margin_left">5</property>
                             <property name="label" translatable="yes">Installed Runtimes: </property>
                             <property name="xalign">0</property>
                             <attributes>
