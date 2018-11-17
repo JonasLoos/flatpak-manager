@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 # global vars
-VERSION = "0.3"
+VERSION = "0.3.1"
 run_app_btn_current_handler = 0
 flatpak_list_apps = []
 flatpak_list_runtimes = []
