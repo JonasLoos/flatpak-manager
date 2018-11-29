@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 # global vars
-VERSION = "0.3.1"
+VERSION = "0.3.2"
 run_app_btn_current_handler = 0
 flatpak_list_apps = []
 flatpak_list_runtimes = []
@@ -17,7 +17,10 @@ flatpak_list_remotes = []
 # ----- functions -----
 
 def flatpak_run(command):
-	return subprocess.run(['flatpak', *command.split(" ")], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+	try:
+		return subprocess.run(['flatpak', *command.split(" ")], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
+	except Exception as e:
+		print("an error occured while running a flatpak command: ", e.args, file=sys.stderr)
 
 def flatpak_list_run(command):
 	return subprocess.run(['flatpak', "list"], stdout=subprocess.PIPE).stdout.decode('utf-8').strip()
@@ -57,17 +60,23 @@ def init_installed_list(selected_list, items):
 	for line in selected_list.get_children():
 		selected_list.remove(line)
 	for x in items:
-		app_name = x.split()[0]
-		item = Gtk.Label()
-		item.set_text(app_name)
-		item.set_xalign(0)
-		selected_list.add(item)
+		if len(x) > 0:
+			app_name = x.split()[0]
+			item = Gtk.Label()
+			item.set_text(app_name)
+			item.set_xalign(0)
+			selected_list.add(item)
 	selected_list.show_all()
 
 def load_flatpak_stuff():
 	global flatpak_list_apps
 	global flatpak_list_runtimes
 	global flatpak_list_remotes
+
+	# check if flatpak is installed
+	if (flatpak_run("--version") is None):
+		print("flatpak doesn't seem to be installed", file=sys.stderr)
+		exit()
 
 	# installed
 	flatpak_list_apps = flatpak_run("list --app").split("\n")
@@ -81,15 +90,17 @@ def load_flatpak_stuff():
 	for line in gtk_remotes_list.get_children():
 		gtk_remotes_list.remove(line)
 	for x in flatpak_list_remotes:
-		item = Gtk.Label()
-		item.set_text(x.split()[0] + " ("+x.split()[1]+")")
-		item.set_xalign(0)
-		gtk_remotes_list.add(item)
+		if len(x) > 0:
+			item = Gtk.Label()
+			item.set_text(x.split()[0] + " ("+x.split()[1]+")")
+			item.set_xalign(0)
+			gtk_remotes_list.add(item)
 	gtk_remotes_list.show_all()
 
 
 	# info
 	gtk_info_version.set_text(VERSION)
+	gtk_about_window.set_version(VERSION)
 	# set flatpak version & arch stuff 
 	gtk_info_flatpak_version.set_text(flatpak_run("--version"))
 	gtk_info_flatpak_supported_arches.set_text(flatpak_run("--supported-arches").replace("\n", ", "))
