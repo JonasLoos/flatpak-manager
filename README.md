@@ -1,3 +1,5 @@
+This project is currently not under active development.
+
 # flatpak-manager
 
 this is a simple python gtk app with the goal to provide a graphical user interface for the terminal flatpak commands.
